@@ -1,0 +1,12 @@
+.DS_Store
+.svn
+.git
+node_modules
+.vscode
+!logs/.gitkeep
+logs/
+yarn.lock
+.env
+uploads/images/*
+data/*
+!./uploads/images/.gitkeep
