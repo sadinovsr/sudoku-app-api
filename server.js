@@ -3,6 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import './utils/dotenv';
+import defaultErrorHandler from './middlewares/defaultErrorHandler';
 
 import index from './routes/index';
 
@@ -29,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(`/api/v${process.env.API_VERSION}`, index);
 
+app.use(defaultErrorHandler);
 const host = process.env.HOST;
 const port = process.env.PORT;
 app.listen(port, host, () => {
