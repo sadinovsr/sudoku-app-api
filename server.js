@@ -11,16 +11,16 @@ const logger = require('./utils/logger')('server');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
+  useCreateIndex: true,
+  useNewUrlParser: true,
 });
 
 mongoose.connection.on('error', error => {
-    logger.log('error', 'MongoDB connection error. Make sure MongoDB is running.');
-    process.exit();
+  logger.log('error', 'MongoDB connection error. Make sure MongoDB is running.');
+  process.exit();
 })
 mongoose.connection.once('open', () => {
-    logger.log('info', 'MongoDB has been connected.');
+  logger.log('info', 'MongoDB has been connected.');
 });
 
 app.use(cors());
@@ -32,5 +32,5 @@ app.use(`/api/v${process.env.API_VERSION}`, index);
 const host = process.env.HOST;
 const port = process.env.PORT;
 app.listen(port, host, () => {
-    logger.log('info', `App is running at http://${host}:${port} in ${app.get('env')} mode.`);
+  logger.log('info', `App is running at http://${host}:${port} in ${app.get('env')} mode.`);
 });
