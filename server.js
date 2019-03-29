@@ -6,6 +6,7 @@ import './utils/dotenv';
 import defaultErrorHandler from './middlewares/defaultErrorHandler';
 
 import index from './routes/index';
+import authRouter from './routes/authRouter';
 
 const app = express();
 const logger = require('./utils/logger')('server');
@@ -29,6 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(`/api/v${process.env.API_VERSION}`, index);
+app.use(`/api/v${process.env.API_VERSION}/auth`, authRouter);
 
 app.use(defaultErrorHandler);
 const host = process.env.HOST;
