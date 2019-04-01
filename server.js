@@ -4,9 +4,11 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import './utils/dotenv';
 import defaultErrorHandler from './middlewares/defaultErrorHandler';
+import authenticate from './middlewares/authenticate';
 
 import index from './routes/index';
 import authRouter from './routes/authRouter';
+import userRouter from './routes/userRouter';
 
 const app = express();
 const logger = require('./utils/logger')('server');
@@ -29,8 +31,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(`/api/v${process.env.API_VERSION}`, index);
 app.use(`/api/v${process.env.API_VERSION}/auth`, authRouter);
+app.use(`/api/v${process.env.API_VERSION}/users`, authenticate, userRouter);
+app.use(`/api/v${process.env.API_VERSION}`, index);
 
 app.use(defaultErrorHandler);
 const host = process.env.HOST;
