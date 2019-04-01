@@ -1,0 +1,81 @@
+import { save, getAllHistory, getHistoryById, updateHistoryById, deleteHistoryById } from '../models/HistoryModel';
+import AppError from '../errors/AppError';
+
+const addHistory = async ( req, res, next ) => {
+  try {
+    const { body } = req;
+    const history = await save({
+      userId: req.user.id,
+      sudokuId: body.sudokuId,
+      answer: body.answer,
+      time: body.time
+    });
+    res.status(201).send({ payload: { message: 'Successfully added history entry!', history } });
+  } catch ( error ) {
+    next( error instanceof AppError ? error : new AppError( error.message ) );
+  }
+}
+
+const getHistory = async ( req, res, next ) => {
+  try {
+    const history = await getAllHistory();
+    res.status(200).send({
+      payload: history
+    });
+  } catch ( error ) {
+    next( new AppError( error.message ) );
+  }
+}
+
+const getHistoryInfo = async ( req, res, next ) => {
+  try {
+    const id = req.params.historyId;
+    const history = await getHistoryById( id );
+    if ( history ) {
+      res.status(200).send({
+        payload: history
+      });
+    } else {
+      throw new AppError( 'History entry not found' );
+    }
+  } catch ( error ) {
+    next( error instanceof AppError ? error : new AppError( error.message ) );
+  }
+}
+
+const updateHistory = async ( req, res, next ) => {
+  try {
+    const id = req.params.historyId;
+    const body = { ...req.body };
+    const updatedHistory = await updateHistoryById( id, body );
+    if ( updatedHistory ) {
+      res.status(200).send({
+        payload: updatedHistory
+      });
+    } else {
+      throw new AppError( 'History entry not found!' );
+    }
+  } catch ( error ) {
+    next( error instanceof AppError ? error : new AppError( error.message ) );
+  }
+}
+
+const deleteHistory = async ( req, res, next ) => {
+  try {
+    const id = req.params.historyId;
+    const deletedHistory = await deleteHistoryById( id );
+    if ( deletedHistory ) {
+      res.status(200).send({
+        payload: {
+          message: 'History entry succesfully deleted!'
+        }
+      });
+    } else {
+      throw new AppError( 'History entry not found!' );
+    }
+  } catch ( error ) {
+    next( error instanceof AppError ? error : new AppError( error.message ) );
+  }
+}
+
+export { getHistory, addHistory, getHistoryInfo, updateHistory, deleteHistory }
