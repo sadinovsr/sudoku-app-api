@@ -1,15 +1,19 @@
 import { save, getAllSudoku, getSudokuById, getSudokuByDifficulty, updateSudokuById ,deleteSudokuById } from '../models/SudokuModel';
+import { compareUserLevels } from '../helpers/compareUserLevels';
 import AppError from '../errors/AppError';
 
 const addSudoku = async ( req, res, next ) => {
   try {
-    const { body } = req;
-    const sudoku = await save({
-      difficulty: body.difficulty,
-      sudoku: body.sudoku,
-    });
-    res.status(201).send({ payload: { message: 'Successfully added sudoku!', sudoku } });
-    return;
+    if ( compareUserLevels( req.user.level, 'moderator') ) {
+      const { body } = req;
+      const sudoku = await save({
+        difficulty: body.difficulty,
+        sudoku: body.sudoku,
+      });
+      res.status(201).send({ payload: { message: 'Successfully added sudoku!', sudoku } });
+    } else {
+      throw new AppError( 'Only Admin or Moderator can add new sudoku!' );
+    }
   } catch ( error ) {
     next( error instanceof AppError ? error : new AppError( error.message ) );
   }
@@ -60,15 +64,19 @@ const getAllSudokuByDifficulty = async ( req, res, next ) => {
 
 const updateSudoku = async ( req, res, next ) => {
   try {
-    const id = req.params.sudokuId;
-    const body = { ...req.body };
-    const updatedSudoku = await updateSudokuById( id, body );
-    if ( updatedSudoku ) {
-      res.status(200).send({
-        payload: updatedSudoku
-      });
+    if ( compareUserLevels( req.user.level, 'moderator') ) {
+      const id = req.params.sudokuId;
+      const body = { ...req.body };
+      const updatedSudoku = await updateSudokuById( id, body );
+      if ( updatedSudoku ) {
+        res.status(200).send({
+          payload: updatedSudoku
+        });
+      } else {
+        throw new AppError( 'Sudoku not found!' );
+      }
     } else {
-      throw new AppError( 'Sudoku not found!' );
+      throw new AppError( 'Only Admin or Moderator can update sudoku!' );
     }
   } catch ( error ) {
     next( error instanceof AppError ? error : new AppError( error.message ) );
@@ -77,16 +85,20 @@ const updateSudoku = async ( req, res, next ) => {
 
 const deleteSudoku = async ( req, res, next ) => {
   try {
-    const id = req.params.sudokuId;
-    const deletedSudoku = await deleteSudokuById( id );
-    if ( deletedSudoku ) {
-      res.status(200).send({
-        payload: {
-          message: 'Sudoku succesfully deleted!'
-        }
-      });
+    if ( compareUserLevels( req.user.level, 'moderator') ) {
+      const id = req.params.sudokuId;
+      const deletedSudoku = await deleteSudokuById( id );
+      if ( deletedSudoku ) {
+        res.status(200).send({
+          payload: {
+            message: 'Sudoku succesfully deleted!'
+          }
+        });
+      } else {
+        throw new AppError( 'Sudoku not found!' );
+      }
     } else {
-      throw new AppError( 'Sudoku not found!' );
+      throw new AppError( 'Only Admin or Moderator can delete sudoku!' );
     }
   } catch ( error ) {
     next( error instanceof AppError ? error : new AppError( error.message ) );

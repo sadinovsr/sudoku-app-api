@@ -1,4 +1,5 @@
 import { save, getAllHistory, getHistoryById, updateHistoryById, deleteHistoryById } from '../models/HistoryModel';
+import { compareUserLevels } from '../helpers/compareUserLevels';
 import AppError from '../errors/AppError';
 
 const addHistory = async ( req, res, next ) => {
@@ -18,12 +19,16 @@ const addHistory = async ( req, res, next ) => {
 
 const getHistory = async ( req, res, next ) => {
   try {
-    const history = await getAllHistory();
-    res.status(200).send({
-      payload: history
-    });
+    if ( compareUserLevels( req.user.level, 'moderator') ) {
+      const history = await getAllHistory();
+      res.status(200).send({
+        payload: history
+      });
+    } else {
+      throw new AppError( 'Only Admin or Moderator can get all History entries!' );
+    }
   } catch ( error ) {
-    next( new AppError( error.message ) );
+    next( error instanceof AppError ? error : new AppError( error.message ) );
   }
 }
 
@@ -31,12 +36,16 @@ const getHistoryInfo = async ( req, res, next ) => {
   try {
     const id = req.params.historyId;
     const history = await getHistoryById( id );
-    if ( history ) {
-      res.status(200).send({
-        payload: history
-      });
+    if ( (req.user.id).toString() === history.userId || compareUserLevels( req.user.level, 'moderator' ) ) {
+      if ( history ) {
+        res.status(200).send({
+          payload: history
+        });
+      } else {
+        throw new AppError( 'History entry not found' );
+      }
     } else {
-      throw new AppError( 'History entry not found' );
+      throw new AppError( 'Only Admin/Moderator or history entry owner can see this information!' );
     }
   } catch ( error ) {
     next( error instanceof AppError ? error : new AppError( error.message ) );
@@ -46,14 +55,19 @@ const getHistoryInfo = async ( req, res, next ) => {
 const updateHistory = async ( req, res, next ) => {
   try {
     const id = req.params.historyId;
-    const body = { ...req.body };
-    const updatedHistory = await updateHistoryById( id, body );
-    if ( updatedHistory ) {
-      res.status(200).send({
-        payload: updatedHistory
-      });
+    const history = await getHistoryById( id );
+    if ( (req.user.id).toString() === history.userId || compareUserLevels( req.user.level, 'moderator' ) ) {
+      const body = { ...req.body };
+      const updatedHistory = await updateHistoryById( id, body );
+      if ( updatedHistory ) {
+        res.status(200).send({
+          payload: updatedHistory
+        });
+      } else {
+        throw new AppError( 'History entry not found!' );
+      }
     } else {
-      throw new AppError( 'History entry not found!' );
+      throw new AppError( 'Only Admin/Moderator and history entry owner can update this information!' );
     }
   } catch ( error ) {
     next( error instanceof AppError ? error : new AppError( error.message ) );
@@ -62,16 +76,20 @@ const updateHistory = async ( req, res, next ) => {
 
 const deleteHistory = async ( req, res, next ) => {
   try {
-    const id = req.params.historyId;
-    const deletedHistory = await deleteHistoryById( id );
-    if ( deletedHistory ) {
-      res.status(200).send({
-        payload: {
-          message: 'History entry succesfully deleted!'
-        }
-      });
+    if ( compareUserLevels( req.user.level, 'moderator' ) ) {
+      const id = req.params.historyId;
+      const deletedHistory = await deleteHistoryById( id );
+      if ( deletedHistory ) {
+        res.status(200).send({
+          payload: {
+            message: 'History entry succesfully deleted!'
+          }
+        });
+      } else {
+        throw new AppError( 'History entry not found!' );
+      }
     } else {
-      throw new AppError( 'History entry not found!' );
+      throw new AppError( 'Only Admin and Moderator can delete history entry!' );
     }
   } catch ( error ) {
     next( error instanceof AppError ? error : new AppError( error.message ) );
