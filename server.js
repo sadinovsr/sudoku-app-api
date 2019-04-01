@@ -9,6 +9,7 @@ import authenticate from './middlewares/authenticate';
 import index from './routes/index';
 import authRouter from './routes/authRouter';
 import userRouter from './routes/userRouter';
+import sudokuRouter from './routes/sudokuRouter';
 
 const app = express();
 const logger = require('./utils/logger')('server');
@@ -33,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(`/api/v${process.env.API_VERSION}/auth`, authRouter);
 app.use(`/api/v${process.env.API_VERSION}/users`, authenticate, userRouter);
+app.use(`/api/v${process.env.API_VERSION}/sudoku`, authenticate, sudokuRouter);
 app.use(`/api/v${process.env.API_VERSION}`, index);
 
 app.use(defaultErrorHandler);
