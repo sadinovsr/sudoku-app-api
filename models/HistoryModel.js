@@ -12,6 +12,8 @@ const historySchema = new mongoose.Schema(
   }
 );
 
+historySchema.index({ userId: 1, sudokuId: 1 }, { unique: true });
+
 const HistoryModel = mongoose.model('History', historySchema);
 
 const save = async history => new HistoryModel(history).save();
