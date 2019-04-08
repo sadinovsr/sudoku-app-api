@@ -58,11 +58,11 @@ const findHistoryUserEntry = async ( req, res, next ) => {
     const sudokuId = req.params.sudokuId;
     if ( await getHistoryByUserIdSudokuId( userId, sudokuId ) ) {
       res.status(200).send({
-        payload: { hasSolved: true }
+        payload: { hasHistoryEntry: true }
       })
     } else {
       res.status(200).send({
-        payload: { hasSolved: false }
+        payload: { hasHistoryEntry: false }
       })
     }
   } catch ( error ) {
