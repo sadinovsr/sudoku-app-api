@@ -1,4 +1,4 @@
-import { save, getAllHistory, getHistoryById, updateHistoryById, deleteHistoryById } from '../models/HistoryModel';
+import { save, getAllHistory, getHistoryById, getHistoryByUserIdSudokuId, updateHistoryById, deleteHistoryById } from '../models/HistoryModel';
 import { compareUserLevels } from '../helpers/compareUserLevels';
 import AppError from '../errors/AppError';
 
@@ -52,6 +52,24 @@ const getHistoryInfo = async ( req, res, next ) => {
   }
 }
 
+const findHistoryUserEntry = async ( req, res, next ) => {
+  try {
+    const userId = req.user.id;
+    const sudokuId = req.params.sudokuId;
+    if ( await getHistoryByUserIdSudokuId( userId, sudokuId ) ) {
+      res.status(200).send({
+        payload: { hasHistoryEntry: true }
+      })
+    } else {
+      res.status(200).send({
+        payload: { hasHistoryEntry: false }
+      })
+    }
+  } catch ( error ) {
+    next( new AppError( error.message ) );
+  }
+}
+
 const updateHistory = async ( req, res, next ) => {
   try {
     const id = req.params.historyId;
@@ -96,4 +114,4 @@ const deleteHistory = async ( req, res, next ) => {
   }
 }
 
-export { getHistory, addHistory, getHistoryInfo, updateHistory, deleteHistory }
+export { getHistory, addHistory, getHistoryInfo, findHistoryUserEntry, updateHistory, deleteHistory }
