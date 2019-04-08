@@ -5,7 +5,8 @@ const historySchema = new mongoose.Schema(
     userId: { type: String, trim: true, required: true },
     sudokuId: { type: String, trim: true, required: true },
     answer: { type: String, trim: true, required: true },
-    time: { type: Number, required: true }
+    time: { type: Number, required: true },
+    completed: { type: Boolean, required: true, default: false }
   },
   {
     timestamps: true
