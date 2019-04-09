@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(`/api/v${process.env.API_VERSION}/auth`, authRouter);
 app.use(`/api/v${process.env.API_VERSION}/users`, authenticate, userRouter);
-app.use(`/api/v${process.env.API_VERSION}/sudoku`, authenticate, sudokuRouter);
+app.use(`/api/v${process.env.API_VERSION}/sudoku`, sudokuRouter);
 app.use(`/api/v${process.env.API_VERSION}/history`, authenticate, historyRouter);
 app.use(`/api/v${process.env.API_VERSION}`, index);
 
