@@ -1,5 +1,6 @@
 import { save, getAllSudoku, getSudokuById, getSudokuByDifficulty, updateSudokuById ,deleteSudokuById } from '../models/SudokuModel';
 import { compareUserLevels } from '../helpers/compareUserLevels';
+import { randomIntBetween } from '../helpers/randomIntBetween';
 import AppError from '../errors/AppError';
 
 const addSudoku = async ( req, res, next ) => {
@@ -62,6 +63,24 @@ const getAllSudokuByDifficulty = async ( req, res, next ) => {
   }
 }
 
+const getRandomizedSudokuByDifficulty = async ( req, res, next ) => {
+  try {
+    const difficulty = req.params.difficulty;
+    const sudoku = await getSudokuByDifficulty( difficulty );
+    if ( sudoku ) {
+      let max = sudoku.length - 1;
+      const index = randomIntBetween(0, max);
+      res.status(200).send({
+        payload: sudoku[index]
+      });
+    } else {
+      throw new AppError( 'Cannot find sudoku with given difficulty' );
+    }
+  } catch ( error ) {
+    next( error instanceof AppError ? error : new AppError( error.message ) );
+  }
+}
+
 const updateSudoku = async ( req, res, next ) => {
   try {
     if ( compareUserLevels( req.user.level, 'moderator') ) {
@@ -105,4 +124,4 @@ const deleteSudoku = async ( req, res, next ) => {
   }
 }
 
-export { addSudoku, getSudoku, getSudokuInfo, getAllSudokuByDifficulty, updateSudoku, deleteSudoku }
+export { addSudoku, getSudoku, getSudokuInfo, getAllSudokuByDifficulty, getRandomizedSudokuByDifficulty, updateSudoku, deleteSudoku }
