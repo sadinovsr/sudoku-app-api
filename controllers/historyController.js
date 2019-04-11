@@ -72,11 +72,20 @@ const findHistoryUserEntry = async ( req, res, next ) => {
 
 const updateHistory = async ( req, res, next ) => {
   try {
-    const id = req.params.historyId;
-    const history = await getHistoryById( id );
-    if ( (req.user.id).toString() === history.userId || compareUserLevels( req.user.level, 'moderator' ) ) {
-      const body = { ...req.body };
-      const updatedHistory = await updateHistoryById( id, body );
+    const sudokuId = req.params.sudokuId;
+    const { user } = req;
+    const answer = req.body.answer;
+    const history = await getHistoryByUserIdSudokuId( user.id, sudokuId );
+    if ( !history ) {
+      await save({
+        userId: user.id,
+        sudokuId,
+        answer,
+        time: 1
+      });
+      res.status(201).send({ payload: { message: 'Successfully added history entry!', history } });
+    } else {
+      const updatedHistory = await updateHistoryById( history.id, { answer } );
       if ( updatedHistory ) {
         res.status(200).send({
           payload: updatedHistory
@@ -84,9 +93,23 @@ const updateHistory = async ( req, res, next ) => {
       } else {
         throw new AppError( 'History entry not found!' );
       }
-    } else {
-      throw new AppError( 'Only Admin/Moderator and history entry owner can update this information!' );
     }
+
+
+
+    // if ( (req.user.id).toString() === history.userId || compareUserLevels( req.user.level, 'moderator' ) ) {
+    //   const body = { ...req.body };
+    //   const updatedHistory = await updateHistoryById( id, body );
+    //   if ( updatedHistory ) {
+    //     res.status(200).send({
+    //       payload: updatedHistory
+    //     });
+    //   } else {
+    //     throw new AppError( 'History entry not found!' );
+    //   }
+    // } else {
+    //   throw new AppError( 'Only Admin/Moderator and history entry owner can update this information!' );
+    // }
   } catch ( error ) {
     next( error instanceof AppError ? error : new AppError( error.message ) );
   }
