@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', getHistory);
 router.post('/', addHistory);
 router.get('/:historyId', getHistoryInfo);
-router.patch('/:historyId', updateHistory);
+router.patch('/:sudokuId', updateHistory);
 router.delete('/:historyId', deleteHistory);
 router.get('/sudoku/:sudokuId', findHistoryUserEntry);
 
