@@ -94,22 +94,6 @@ const updateHistory = async ( req, res, next ) => {
         throw new AppError( 'History entry not found!' );
       }
     }
-
-
-
-    // if ( (req.user.id).toString() === history.userId || compareUserLevels( req.user.level, 'moderator' ) ) {
-    //   const body = { ...req.body };
-    //   const updatedHistory = await updateHistoryById( id, body );
-    //   if ( updatedHistory ) {
-    //     res.status(200).send({
-    //       payload: updatedHistory
-    //     });
-    //   } else {
-    //     throw new AppError( 'History entry not found!' );
-    //   }
-    // } else {
-    //   throw new AppError( 'Only Admin/Moderator and history entry owner can update this information!' );
-    // }
   } catch ( error ) {
     next( error instanceof AppError ? error : new AppError( error.message ) );
   }
