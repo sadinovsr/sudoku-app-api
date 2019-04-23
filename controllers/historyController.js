@@ -74,18 +74,18 @@ const updateHistory = async ( req, res, next ) => {
   try {
     const sudokuId = req.params.sudokuId;
     const { user } = req;
-    const answer = req.body.answer;
+    const sudokuObject = req.body;
     const history = await getHistoryByUserIdSudokuId( user.id, sudokuId );
     if ( !history ) {
       await save({
         userId: user.id,
         sudokuId,
-        answer,
-        time: 1
+        answer: sudokuObject.answer,
+        time: sudokuObject.time
       });
       res.status(201).send({ payload: { message: 'Successfully added history entry!', history } });
     } else {
-      const updatedHistory = await updateHistoryById( history.id, { answer } );
+      const updatedHistory = await updateHistoryById( history.id, sudokuObject );
       if ( updatedHistory ) {
         res.status(200).send({
           payload: updatedHistory
