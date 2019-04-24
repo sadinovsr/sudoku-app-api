@@ -8,6 +8,7 @@ import {
   updateHistoryById,
   deleteHistoryById,
 } from '../models/HistoryModel';
+import { getSudokuById } from '../models/SudokuModel';
 import { compareUserLevels } from '../helpers/compareUserLevels';
 import AppError from '../errors/AppError';
 
@@ -85,10 +86,41 @@ const getDividedUserHistory = async ( req, res, next ) => {
     const completedHistory = await getHistoryByUserIdCompleted( userId );
     const notCompletedHistory = await getHistoryByUserIdNotCompleted( userId );
     if ( completedHistory && notCompletedHistory ) {
+
+      let newCompletedHistory = [];
+      let newNotCompletedHistory = [];
+
+      await Promise.all(completedHistory.map(async (entry) => {
+        let sudoku = await getSudokuById(entry.sudokuId);
+        newCompletedHistory.push({
+          difficulty: sudoku.difficulty,
+          id: entry.id,
+          userId: entry.userId,
+          sudokuId: entry.sudokuId,
+          answer: entry.answer,
+          time: entry.time,
+          completed: entry.completed,
+          usedSolve: entry.usedSolve
+        });
+      }));
+      await Promise.all(notCompletedHistory.map(async (entry) => {
+        let sudoku = await getSudokuById(entry.sudokuId);
+        newNotCompletedHistory.push({
+          difficulty: sudoku.difficulty,
+          id: entry.id,
+          userId: entry.userId,
+          sudokuId: entry.sudokuId,
+          answer: entry.answer,
+          time: entry.time,
+          completed: entry.completed,
+          usedSolve: entry.usedSolve
+        });
+      }));
+
       res.status(200).send({
         payload: {
-          completedHistory,
-          notCompletedHistory,
+          completedHistory: newCompletedHistory,
+          notCompletedHistory: newNotCompletedHistory,
         }
       })
     } else {
