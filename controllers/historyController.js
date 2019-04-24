@@ -124,7 +124,7 @@ const getDividedUserHistory = async ( req, res, next ) => {
         }
       })
     } else {
-      throw new AppError( 'History netries not found!' );
+      throw new AppError( 'History entries not found!' );
     }
   } catch ( error ) {
     next( error instanceof AppError ? error : new AppError( error.message ) );
