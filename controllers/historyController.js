@@ -1,4 +1,13 @@
-import { save, getAllHistory, getHistoryById, getHistoryByUserIdSudokuId, updateHistoryById, deleteHistoryById } from '../models/HistoryModel';
+import { 
+  save,
+  getAllHistory,
+  getHistoryById,
+  getHistoryByUserIdSudokuId,
+  getHistoryByUserIdCompleted,
+  getHistoryByUserIdNotCompleted,
+  updateHistoryById,
+  deleteHistoryById,
+} from '../models/HistoryModel';
 import { compareUserLevels } from '../helpers/compareUserLevels';
 import AppError from '../errors/AppError';
 
@@ -42,7 +51,7 @@ const getHistoryInfo = async ( req, res, next ) => {
           payload: history
         });
       } else {
-        throw new AppError( 'History entry not found' );
+        throw new AppError( 'History entry not found!' );
       }
     } else {
       throw new AppError( 'Only Admin/Moderator or history entry owner can see this information!' );
@@ -70,6 +79,26 @@ const findHistoryUserEntry = async ( req, res, next ) => {
   }
 }
 
+const getDividedUserHistory = async ( req, res, next ) => {
+  try {
+    const userId = req.user.id;
+    const completedHistory = await getHistoryByUserIdCompleted( userId );
+    const notCompletedHistory = await getHistoryByUserIdNotCompleted( userId );
+    if ( completedHistory && notCompletedHistory ) {
+      res.status(200).send({
+        payload: {
+          completedHistory,
+          notCompletedHistory,
+        }
+      })
+    } else {
+      throw new AppError( 'History netries not found!' );
+    }
+  } catch ( error ) {
+    next( error instanceof AppError ? error : new AppError( error.message ) );
+  }
+}
+
 const updateHistory = async ( req, res, next ) => {
   try {
     const sudokuId = req.params.sudokuId;
@@ -81,7 +110,9 @@ const updateHistory = async ( req, res, next ) => {
         userId: user.id,
         sudokuId,
         answer: sudokuObject.answer,
-        time: sudokuObject.time
+        time: sudokuObject.time,
+        usedSolve: sudokuObject.usedSolve,
+        completed: sudokuObject.completed,
       });
       res.status(201).send({ payload: { message: 'Successfully added history entry!', history } });
     } else {
@@ -121,4 +152,4 @@ const deleteHistory = async ( req, res, next ) => {
   }
 }
 
-export { getHistory, addHistory, getHistoryInfo, findHistoryUserEntry, updateHistory, deleteHistory }
+export { getHistory, addHistory, getHistoryInfo, findHistoryUserEntry, getDividedUserHistory, updateHistory, deleteHistory }
