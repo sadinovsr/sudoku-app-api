@@ -1,6 +1,7 @@
 import { save, getAllSudoku, getSudokuById, getSudokuByDifficulty, updateSudokuById ,deleteSudokuById } from '../models/SudokuModel';
 import { compareUserLevels } from '../helpers/compareUserLevels';
 import { randomIntBetween } from '../helpers/randomIntBetween';
+import { getHistoryByUserId } from '../models/HistoryModel';
 import AppError from '../errors/AppError';
 
 const addSudoku = async ( req, res, next ) => {
@@ -65,9 +66,12 @@ const getAllSudokuByDifficulty = async ( req, res, next ) => {
 
 const getRandomizedSudokuByDifficulty = async ( req, res, next ) => {
   try {
-    const difficulty = req.params.difficulty;
-    const sudoku = await getSudokuByDifficulty( difficulty );
+    const sudoku = await getSudokuByDifficulty( req.params.difficulty );
     if ( sudoku ) {
+      let sudokuIds = [];
+      sudoku.forEach(obj => {
+        sudokuIds.push(obj._id);
+      });
       let max = sudoku.length - 1;
       const index = randomIntBetween(0, max);
       res.status(200).send({
@@ -75,6 +79,50 @@ const getRandomizedSudokuByDifficulty = async ( req, res, next ) => {
       });
     } else {
       throw new AppError( 'Cannot find sudoku with given difficulty' );
+    }
+  } catch ( error ) {
+    next( error instanceof AppError ? error : new AppError( error.message ) );
+  }
+}
+
+const getAuthorizedRandomizedSudokuByDifficulty = async ( req, res, next ) => {
+  try {
+    if ( req.user ) {
+      const sudoku = await getSudokuByDifficulty( req.params.difficulty );
+      const userHistory = await getHistoryByUserId( req.user.id );
+      if ( sudoku ) {
+        let sudokuIds = [];
+        let historySudokuIds = [];
+        let availableSudokuIds = [];
+        sudoku.forEach(obj => {
+          sudokuIds.push(obj._id);
+        });
+        userHistory.forEach(obj => {
+          historySudokuIds.push(obj.sudokuId);
+        });
+        for ( let i = 0; i < sudokuIds.length; i++ ) {
+          let foundMatchingIds = false;
+          for ( let j = 0; j < historySudokuIds.length; j++ ) {
+            if ( String(sudokuIds[i]) === String(historySudokuIds[j]) ) {
+              foundMatchingIds = true;
+              break;
+            }
+          }
+          if ( !foundMatchingIds ) {
+            availableSudokuIds.push(sudokuIds[i]);
+          }
+        }
+        let max = availableSudokuIds.length - 1;
+        const index = randomIntBetween(0, max);
+        const returnSudoku = await getSudokuById( availableSudokuIds[index] );
+        res.status(200).send({
+          payload: returnSudoku,
+        });
+      } else {
+        throw new AppError( 'Cannot find sudoku with given difficulty' );
+      }
+    } else {
+      throw new AppError( 'Cannot find user!' );
     }
   } catch ( error ) {
     next( error instanceof AppError ? error : new AppError( error.message ) );
@@ -124,4 +172,13 @@ const deleteSudoku = async ( req, res, next ) => {
   }
 }
 
-export { addSudoku, getSudoku, getSudokuInfo, getAllSudokuByDifficulty, getRandomizedSudokuByDifficulty, updateSudoku, deleteSudoku }
+export { 
+  addSudoku,
+  getSudoku,
+  getSudokuInfo,
+  getAllSudokuByDifficulty,
+  getRandomizedSudokuByDifficulty,
+  getAuthorizedRandomizedSudokuByDifficulty,
+  updateSudoku,
+  deleteSudoku
+}
