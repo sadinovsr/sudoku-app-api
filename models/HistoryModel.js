@@ -26,6 +26,9 @@ const getHistoryBySudokuId = async sudokuId => HistoryModel.find({ sudokuId });
 const getHistoryByUserIdSudokuId = async (userId, sudokuId) => HistoryModel.findOne({ userId, sudokuId });
 const getHistoryByUserIdCompleted = async userId => HistoryModel.find({ userId, completed: true });
 const getHistoryByUserIdNotCompleted = async userId => HistoryModel.find({ userId, completed: false });
+const getHistoryStartedCountByUserId = async userId => HistoryModel.countDocuments({ userId });
+const getHistoryCompletedCountByUserId = async userId => HistoryModel.countDocuments({ userId, completed: true });
+const getHistoryUsedSolveCountByUserId = async userId => HistoryModel.countDocuments({ userId, usedSolve: true });
 const updateHistoryById = async (_id, model) => HistoryModel.findByIdAndUpdate(_id, model, { new: true });
 const deleteHistoryById = async _id => HistoryModel.findByIdAndDelete(_id);
 
@@ -44,6 +47,9 @@ export {
   getHistoryByUserIdSudokuId,
   getHistoryByUserIdCompleted,
   getHistoryByUserIdNotCompleted,
+  getHistoryStartedCountByUserId,
+  getHistoryCompletedCountByUserId,
+  getHistoryUsedSolveCountByUserId,
   updateHistoryById,
   deleteHistoryById,
   historySchema 
