@@ -5,10 +5,13 @@ import {
   getHistoryByUserIdSudokuId,
   getHistoryByUserIdCompleted,
   getHistoryByUserIdNotCompleted,
+  getHistoryStartedCountByUserId,
+  getHistoryCompletedCountByUserId,
+  getHistoryUsedSolveCountByUserId,
   updateHistoryById,
   deleteHistoryById,
 } from '../models/HistoryModel';
-import { getSudokuById } from '../models/SudokuModel';
+import { getSudokuById, getAllSudokuCount } from '../models/SudokuModel';
 import { compareUserLevels } from '../helpers/compareUserLevels';
 import AppError from '../errors/AppError';
 
@@ -131,6 +134,30 @@ const getDividedUserHistory = async ( req, res, next ) => {
   }
 }
 
+const getUserHistoryStatistics = async ( req, res, next ) => {
+  try {
+    const { user } = req;
+    if ( user ) {
+      const doneCount = await getHistoryCompletedCountByUserId( user.id );
+      const startedCount = await getHistoryStartedCountByUserId( user.id );
+      const usedSolveCount = await getHistoryUsedSolveCountByUserId( user.id );
+      const allSudokuCount = await getAllSudokuCount();
+      res.status(200).send({
+        payload: {
+          doneCount,
+          startedCount,
+          usedSolveCount,
+          allSudokuCount,
+        }
+      })
+    } else {
+      throw new AppError( 'User not found!' );
+    }
+  } catch ( error ) {
+    next( error instanceof AppError ? error : new AppError( error.message ) );
+  }
+}
+
 const updateHistory = async ( req, res, next ) => {
   try {
     const sudokuId = req.params.sudokuId;
@@ -184,4 +211,13 @@ const deleteHistory = async ( req, res, next ) => {
   }
 }
 
-export { getHistory, addHistory, getHistoryInfo, findHistoryUserEntry, getDividedUserHistory, updateHistory, deleteHistory }
+export {
+  getHistory,
+  addHistory,
+  getHistoryInfo,
+  findHistoryUserEntry,
+  getDividedUserHistory,
+  getUserHistoryStatistics,
+  updateHistory,
+  deleteHistory
+}
