@@ -29,6 +29,8 @@ const getHistoryByUserIdNotCompleted = async userId => HistoryModel.find({ userI
 const getHistoryStartedCountByUserId = async userId => HistoryModel.countDocuments({ userId });
 const getHistoryCompletedCountByUserId = async userId => HistoryModel.countDocuments({ userId, completed: true });
 const getHistoryUsedSolveCountByUserId = async userId => HistoryModel.countDocuments({ userId, usedSolve: true });
+const getAllHistoryCompletedCount = async () => HistoryModel.countDocuments({ completed: true });
+const getAllHistoryUsedSolveCount = async () => HistoryModel.countDocuments({ usedSolve: true });
 const updateHistoryById = async (_id, model) => HistoryModel.findByIdAndUpdate(_id, model, { new: true });
 const deleteHistoryById = async _id => HistoryModel.findByIdAndDelete(_id);
 
@@ -50,6 +52,8 @@ export {
   getHistoryStartedCountByUserId,
   getHistoryCompletedCountByUserId,
   getHistoryUsedSolveCountByUserId,
+  getAllHistoryCompletedCount,
+  getAllHistoryUsedSolveCount,
   updateHistoryById,
   deleteHistoryById,
   historySchema 
