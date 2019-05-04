@@ -11,6 +11,7 @@ import authRouter from './routes/authRouter';
 import userRouter from './routes/userRouter';
 import sudokuRouter from './routes/sudokuRouter';
 import historyRouter from './routes/historyRouter';
+import adminRouter from './routes/adminRouter';
 
 const app = express();
 const logger = require('./utils/logger')('server');
@@ -37,6 +38,7 @@ app.use(`/api/v${process.env.API_VERSION}/auth`, authRouter);
 app.use(`/api/v${process.env.API_VERSION}/users`, authenticate, userRouter);
 app.use(`/api/v${process.env.API_VERSION}/sudoku`, sudokuRouter);
 app.use(`/api/v${process.env.API_VERSION}/history`, authenticate, historyRouter);
+app.use(`/api/v${process.env.API_VERSION}/admin`, authenticate, adminRouter);
 app.use(`/api/v${process.env.API_VERSION}`, index);
 
 app.use(defaultErrorHandler);

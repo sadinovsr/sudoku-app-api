@@ -31,6 +31,7 @@ const getAllUsers = async () => UserModel.find();
 const getUserByEmail = async email => UserModel.findOne({ email });
 const getUserByUsername = async username => UserModel.findOne({ username });
 const getUserById = async _id => UserModel.findById({ _id });
+const getRegisteredUserCountLastWeek = async date => UserModel.countDocuments({ createdAt: { '$gte': date } });
 const updateUserById = async (_id, model) => UserModel.findByIdAndUpdate(_id, model, { new: true });
 const deleteUserById = async _id => UserModel.findByIdAndDelete(_id);
 
@@ -41,4 +42,15 @@ UserModel.schema
   .path( 'email' )
   .validate( async email => !(await getUserByEmail(email)), 'Email is already in use!' );
 
-export { save, comparePassword, getAllUsers, getUserByEmail, getUserByUsername, getUserById, updateUserById, deleteUserById, userSchema };
+export {
+  save,
+  comparePassword,
+  getAllUsers,
+  getUserByEmail,
+  getUserByUsername,
+  getUserById,
+  getRegisteredUserCountLastWeek,
+  updateUserById,
+  deleteUserById,
+  userSchema
+};
