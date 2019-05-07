@@ -1,7 +1,8 @@
-import { getAllUsers, getUserByUsername, getUserByEmail, updateUserById, deleteUserById } from '../models/UserModel';
+import { getAllUsers, getUserByUsername, updateUserById, deleteUserById } from '../models/UserModel';
 import { compareUserLevels } from '../helpers/compareUserLevels';
 import AppError from '../errors/AppError';
 import bcrypt from 'bcrypt';
+import { deleteHistoryByUserId } from '../models/HistoryModel';
 
 const getUsers = async ( req, res, next ) => {
   try {
@@ -68,7 +69,8 @@ const deleteUser = async ( req, res, next ) => {
     const id = req.params.userId;
     if ( (req.user.id).toString() === id || compareUserLevels( req.user.level, 'admin' ) ) {
       const deletedUser = await deleteUserById( id );
-      if ( deletedUser ) {
+      const deletedHistory = await deleteHistoryByUserId( id );
+      if ( deletedUser && deletedHistory ) {
         res.status(200).send({
           payload: {
             message: 'User succesfully deleted!'
