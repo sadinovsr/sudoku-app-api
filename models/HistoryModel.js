@@ -33,6 +33,7 @@ const getAllHistoryCompletedCount = async () => HistoryModel.countDocuments({ co
 const getAllHistoryUsedSolveCount = async () => HistoryModel.countDocuments({ usedSolve: true });
 const updateHistoryById = async (_id, model) => HistoryModel.findByIdAndUpdate(_id, model, { new: true });
 const deleteHistoryById = async _id => HistoryModel.findByIdAndDelete(_id);
+const deleteHistoryByUserId = async userId => HistoryModel.deleteMany({ userId });
 
 HistoryModel.schema
   .path( 'answer' )
@@ -56,5 +57,6 @@ export {
   getAllHistoryUsedSolveCount,
   updateHistoryById,
   deleteHistoryById,
+  deleteHistoryByUserId,
   historySchema 
 };
