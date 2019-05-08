@@ -1,4 +1,4 @@
-import { getAllUsers, getUserByUsername, updateUserById, deleteUserById } from '../models/UserModel';
+import { getAllUsers, getUserByUsername, getUserByEmail, updateUserById, deleteUserById } from '../models/UserModel';
 import { compareUserLevels } from '../helpers/compareUserLevels';
 import AppError from '../errors/AppError';
 import bcrypt from 'bcrypt';
@@ -40,10 +40,20 @@ const updateUser = async ( req, res, next ) => {
         userUpdate.password = newPassword;
       }
       if ( username ) {
-        userUpdate.username = username;
+        const checkUsername = await getUserByUsername(username);
+        if ( !checkUsername || checkUsername.id === id ) {
+          userUpdate.username = username;
+        } else {
+          throw new AppError( 'Username is already taken!' )
+        }
       }
       if ( email ) {
-        userUpdate.email = email;
+        const checkEmail = await getUserByEmail(email);
+        if ( !checkEmail || checkEmail.id === id ) {
+          userUpdate.email = email;
+        } else {
+          throw new AppError( 'E-mail is already taken!' )
+        }
       }
       if ( level && isAdmin ) {
         userUpdate.level = level;
