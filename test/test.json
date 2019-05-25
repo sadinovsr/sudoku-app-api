@@ -1,0 +1,2427 @@
+{
+	"info": {
+		"_postman_id": "795f3467-7cf1-4559-84e1-c4e8d52d6a26",
+		"name": "Sudoku-App-API Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register - invalid email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d310f6b7-1a80-49ab-b805-8839f0e0d02b",
+								"exec": [
+									"pm.test('Invalid email!', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Please provide valid email address!');",
+									"});",
+									"pm.test('Status 400', function () {",
+									"    pm.response.to.have.status(400);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "user",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registers user"
+					},
+					"response": []
+				},
+				{
+					"name": "Register - user already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eb2fdf6c-5335-495e-9840-6a22cd531baa",
+								"exec": [
+									"pm.test('User already exists', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('User validation failed: username: User already exists!');",
+									"});",
+									"pm.test('Status 400', function () {",
+									"    pm.response.to.have.status(400);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@admin.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registers user"
+					},
+					"response": []
+				},
+				{
+					"name": "Register - email already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eb2fdf6c-5335-495e-9840-6a22cd531baa",
+								"exec": [
+									"pm.test('Email already exists', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('User validation failed: email: Email is already in use!');",
+									"});",
+									"pm.test('Status 400', function () {",
+									"    pm.response.to.have.status(400);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "adminos",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@sudoku-react.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registers user"
+					},
+					"response": []
+				},
+				{
+					"name": "Not successful Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e5d33a11-97eb-471a-a28d-92150faaa897",
+								"exec": [
+									"pm.test('Wrong user credentials!', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Wrong user credentials!');",
+									"});",
+									"pm.test('Status 400', function () {",
+									"    pm.response.to.have.status(400);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "asdf",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "asdf",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Successful Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e5d33a11-97eb-471a-a28d-92150faaa897",
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "admino",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Successful Get all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "af272ec7-bbfe-4c72-ab1a-4bbb3dbcb8c5",
+								"exec": [
+									"pm.test('Expect payload to be an array', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.payload).to.be.an('array');",
+									"});",
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/users/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unsuccessful Get all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "af272ec7-bbfe-4c72-ab1a-4bbb3dbcb8c5",
+								"exec": [
+									"pm.test('Expect payload to be an array', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Only admin or moderator can get all users');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWRtaW5vIiwiZW1haWwiOiJhZG1pbkBzdWRva3UtcmVhY3QuY29tIiwibGV2ZWwiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIiwidXBkYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIn0sImlhdCI6MTU1ODc4NzA1NiwiZXhwIjoxNTY5ODA4NjU2fQ.UjU3jRX_NjxGcmoV6yzrka51jzDhJkgyi2e7pLeeymc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/users/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Successful Get user info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "751d6efc-dbee-437e-b029-6f62218d86f9",
+								"exec": [
+									"pm.test('Expect payload to be an object', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.payload).to.be.an('object');",
+									"});",
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/users/self",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"self"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Successful update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "065f5537-fefd-44f0-aca2-6161962f000d",
+								"exec": [
+									"pm.test('Expect payload to be an object', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.payload).to.be.an('object');",
+									"});",
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "random@email.om{{$randomInt}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/users/:userId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "5ca21c9cea45bc40cc39908a"
+								}
+							]
+						},
+						"description": "provide userId in order to update user"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user - email exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8a0621fa-31ab-4ab8-b83d-a27543362daf",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('E-mail is already taken!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "admin@react.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/users/:userId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "5ca21c9cea45bc40cc39908a"
+								}
+							]
+						},
+						"description": "provide userId in order to update user"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user - user exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "23de8593-9421-4e18-80c6-e1e0bf5f6a1e",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Username is already taken!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/users/:userId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "5ca21c9cea45bc40cc39908a"
+								}
+							]
+						},
+						"description": "provide userId in order to update user"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e5eb2feb-dcea-402b-a140-f84bddcf21f2",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('User not found!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{$randomInt}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/users/:userId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "5ca21c9cea45bc40cc49908a"
+								}
+							]
+						},
+						"description": "provide userId in order to update user"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user - user not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "33348424-7c82-4be2-85d4-7d61305cad00",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('User not found!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/users/:userId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "5ca21c9cea45bc40cc49908a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user - only admin/mod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6fbb9541-d135-4d0f-97da-8147154a5f08",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Only admin or user himself can delete user information!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWRtaW5vIiwiZW1haWwiOiJhZG1pbkBzdWRva3UtcmVhY3QuY29tIiwibGV2ZWwiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIiwidXBkYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIn0sImlhdCI6MTU1ODc4NzA1NiwiZXhwIjoxNTY5ODA4NjU2fQ.UjU3jRX_NjxGcmoV6yzrka51jzDhJkgyi2e7pLeeymc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/users/:userId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "5ca21c9cea45bc40cc39908a"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sudoku",
+			"item": [
+				{
+					"name": "Add sudoku - only admin/mod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "638fef12-6299-44e5-b385-561573a0b5e1",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Only Admin or Moderator can add new sudoku!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWRtaW5vIiwiZW1haWwiOiJhZG1pbkBzdWRva3UtcmVhY3QuY29tIiwibGV2ZWwiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIiwidXBkYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIn0sImlhdCI6MTU1ODc4NzA1NiwiZXhwIjoxNTY5ODA4NjU2fQ.UjU3jRX_NjxGcmoV6yzrka51jzDhJkgyi2e7pLeeymc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "difficulty",
+									"value": "easy",
+									"type": "text"
+								},
+								{
+									"key": "sudoku",
+									"value": "000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add sudoku - invalid difficulty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "638fef12-6299-44e5-b385-561573a0b5e1",
+								"exec": [
+									"pm.test('Expect payload to have error', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error);",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "difficulty",
+									"value": "easyyyy",
+									"type": "text"
+								},
+								{
+									"key": "sudoku",
+									"value": "000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add sudoku - invalid sudoku length",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "638fef12-6299-44e5-b385-561573a0b5e1",
+								"exec": [
+									"pm.test('Expect payload to have error', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error);",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "difficulty",
+									"value": "easy",
+									"type": "text"
+								},
+								{
+									"key": "sudoku",
+									"value": "00000000000000000000000000000000000000000000000000000000000000000000000000000000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all sudoku",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bbba8273-fcc8-491c-8eff-37778d86dfa6",
+								"exec": [
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"pm.test('Expect payload to be an array', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.payload).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get sudoku info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4da4c95a-82b7-4e1c-abef-25bf489ea332",
+								"exec": [
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku/:sudokuId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku",
+								":sudokuId"
+							],
+							"variable": [
+								{
+									"key": "sudokuId",
+									"value": "5cadfa513cacd34b0015c4c2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get sudoku info - not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6f401163-a897-4206-836a-30a751817d98",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Sudoku not found');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku/:sudokuId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku",
+								":sudokuId"
+							],
+							"variable": [
+								{
+									"key": "sudokuId",
+									"value": "5cadfa513caca34b0015c4ca"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get sudoku by difficulty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "30a7b127-168d-42df-b81f-0b6fcb26799d",
+								"exec": [
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"pm.test('Expect payload to be an array', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.payload).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku/difficulty/:difficulty",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku",
+								"difficulty",
+								":difficulty"
+							],
+							"variable": [
+								{
+									"key": "difficulty",
+									"value": "easy"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Random sudoku by difficulty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "77bcc690-c5bd-44df-a038-5506d77a7c01",
+								"exec": [
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku/random/difficulty/:difficulty",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku",
+								"random",
+								"difficulty",
+								":difficulty"
+							],
+							"variable": [
+								{
+									"key": "difficulty",
+									"value": "easy"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Random authorized sudoku by difficulty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c52f2ce6-87e0-49f6-a58c-be2468721d26",
+								"exec": [
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku/random/auth/difficulty/:difficulty",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku",
+								"random",
+								"auth",
+								"difficulty",
+								":difficulty"
+							],
+							"variable": [
+								{
+									"key": "difficulty",
+									"value": "easy"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update sudoku",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "69f55c10-a5da-468b-b972-2d3681278a88",
+								"exec": [
+									"pm.test('Expect payload to be an object', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.payload).to.be.an('object');",
+									"});",
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "difficulty",
+									"value": "{{$randomInt}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku/:sudokuId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku",
+								":sudokuId"
+							],
+							"variable": [
+								{
+									"key": "sudokuId",
+									"value": "5cadfa513cacd34b0015c4c2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update sudoku - no sudoku",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7d9be22c-6625-46f5-a71f-0372a5d89b5d",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Sudoku not found!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku/:sudokuId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku",
+								":sudokuId"
+							],
+							"variable": [
+								{
+									"key": "sudokuId",
+									"value": "5ca21c9cea45bc40cc49908a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update sudoku - only admin/mod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0fd27964-e158-4a14-8c4b-d4349fa6e769",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Only Admin or Moderator can update sudoku!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWRtaW5vIiwiZW1haWwiOiJhZG1pbkBzdWRva3UtcmVhY3QuY29tIiwibGV2ZWwiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIiwidXBkYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIn0sImlhdCI6MTU1ODc4NzA1NiwiZXhwIjoxNTY5ODA4NjU2fQ.UjU3jRX_NjxGcmoV6yzrka51jzDhJkgyi2e7pLeeymc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "difficulty",
+									"value": "{{$randomInt}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku/:sudokuId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku",
+								":sudokuId"
+							],
+							"variable": [
+								{
+									"key": "sudokuId",
+									"value": "5cadfa513cacd34b0015c4c2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete sudoku - sudoku not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ad69260b-7e4b-49ce-a798-a73c3fa4213a",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Sudoku not found!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku/:sudokuId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku",
+								":sudokuId"
+							],
+							"variable": [
+								{
+									"key": "sudokuId",
+									"value": "5ca21c9cea45bc40cc39908a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete sudoku - only admin/mod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b67153c2-749c-41b1-a801-65ce2dc26a00",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Only Admin or Moderator can delete sudoku!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWRtaW5vIiwiZW1haWwiOiJhZG1pbkBzdWRva3UtcmVhY3QuY29tIiwibGV2ZWwiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIiwidXBkYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIn0sImlhdCI6MTU1ODc4NzA1NiwiZXhwIjoxNTY5ODA4NjU2fQ.UjU3jRX_NjxGcmoV6yzrka51jzDhJkgyi2e7pLeeymc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/sudoku/:sudokuId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sudoku",
+								":sudokuId"
+							],
+							"variable": [
+								{
+									"key": "sudokuId",
+									"value": "5cadfa773cacd34b0015c4c4"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "History",
+			"item": [
+				{
+					"name": "Get all history entries",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9af02306-f5f8-486d-a45e-f4a8814e73f8",
+								"exec": [
+									"pm.test('Expect payload to be an array', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.payload).to.be.an('array');",
+									"});",
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/history",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all history entries - only admin/mod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "28bcdd7a-62e6-4341-aee1-16819f8874d3",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Only Admin or Moderator can get all History entries!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWRtaW5vIiwiZW1haWwiOiJhZG1pbkBzdWRva3UtcmVhY3QuY29tIiwibGV2ZWwiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIiwidXBkYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIn0sImlhdCI6MTU1ODc4NzA1NiwiZXhwIjoxNTY5ODA4NjU2fQ.UjU3jRX_NjxGcmoV6yzrka51jzDhJkgyi2e7pLeeymc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/history",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get history entry info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "642ae07b-19f3-4180-af26-00732b7a1e7f",
+								"exec": [
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/history/:historyId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"history",
+								":historyId"
+							],
+							"variable": [
+								{
+									"key": "historyId",
+									"value": "5cd2ab54842d7981c44cf0c8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get history entry info - only admin/mod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "331cb707-3a3f-4726-8d3c-29952fa5acae",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Only Admin/Moderator or history entry owner can see this information!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWRtaW5vIiwiZW1haWwiOiJhZG1pbkBzdWRva3UtcmVhY3QuY29tIiwibGV2ZWwiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIiwidXBkYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIn0sImlhdCI6MTU1ODc4NzA1NiwiZXhwIjoxNTY5ODA4NjU2fQ.UjU3jRX_NjxGcmoV6yzrka51jzDhJkgyi2e7pLeeymc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/history/:historyId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"history",
+								":historyId"
+							],
+							"variable": [
+								{
+									"key": "historyId",
+									"value": "5cd2ac4f842d7981c44cf0c9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get true if user has started to solve",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c10b9c09-fe4a-463b-ac16-e25bc9ed8ca7",
+								"exec": [
+									"pm.test('Expect true', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.payload.hasHistoryEntry).to.eql(true);",
+									"});",
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/v1/history/sudoku/:sudokuId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"history",
+								"sudoku",
+								":sudokuId"
+							],
+							"variable": [
+								{
+									"key": "sudokuId",
+									"value": "5cadfbc93cacd34b0015c4d7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get true if user has started to solve Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "625fb481-d8b4-477a-b2ac-a36ddd7e71d9",
+								"exec": [
+									"pm.test('Expect true', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.payload.hasHistoryEntry).to.eql(false);",
+									"});",
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/v1/history/sudoku/:sudokuId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"history",
+								"sudoku",
+								":sudokuId"
+							],
+							"variable": [
+								{
+									"key": "sudokuId",
+									"value": "5cd188e1338ac555d8445e22"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get divided user history",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3d3685ac-7fb3-4144-bae8-ded0efdded94",
+								"exec": [
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWRtaW5vIiwiZW1haWwiOiJhZG1pbkBzdWRva3UtcmVhY3QuY29tIiwibGV2ZWwiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIiwidXBkYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIn0sImlhdCI6MTU1ODc4NzA1NiwiZXhwIjoxNTY5ODA4NjU2fQ.UjU3jRX_NjxGcmoV6yzrka51jzDhJkgyi2e7pLeeymc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/history/divided",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"history",
+								"divided"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get history statistics",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b08b01a0-cded-438c-828f-3cf9395b5dd1",
+								"exec": [
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/history/sudoku/statistics",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"history",
+								"sudoku",
+								"statistics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update history entry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c5d517bb-978c-4ff1-9da7-daf7030b9303",
+								"exec": [
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "time",
+									"value": "{{$randomInt}}",
+									"type": "text"
+								},
+								{
+									"key": "answer",
+									"value": "425781936178369524369524187894157362652843791713692845987216453536478219241935678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/history/:historyId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"history",
+								":historyId"
+							],
+							"variable": [
+								{
+									"key": "historyId",
+									"value": "5ce961836d57515a94d48da2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete history entry - entry not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e926178b-a468-4700-88ea-e1895fad00fb",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('History entry not found!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/history/:historyId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"history",
+								":historyId"
+							],
+							"variable": [
+								{
+									"key": "historyId",
+									"value": "5ce911836d57515a94d48da2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete history entry - only admin/mod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b1106f7d-5cfe-4c72-a474-78c1355b7da3",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Only Admin and Moderator can delete history entry!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWRtaW5vIiwiZW1haWwiOiJhZG1pbkBzdWRva3UtcmVhY3QuY29tIiwibGV2ZWwiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIiwidXBkYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIn0sImlhdCI6MTU1ODc4NzA1NiwiZXhwIjoxNTY5ODA4NjU2fQ.UjU3jRX_NjxGcmoV6yzrka51jzDhJkgyi2e7pLeeymc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/history/:historyId",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"history",
+								":historyId"
+							],
+							"variable": [
+								{
+									"key": "historyId",
+									"value": "5ce3aea16156180b08b5359d"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Get admin dashboard data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bfc485ca-ebbd-4b67-968d-5678b24d5545",
+								"exec": [
+									"pm.test('Status 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoic2FkaW5vdnNyIiwiZW1haWwiOiJzYWRpbm92c3JAZ21haWwuY29tIiwibGV2ZWwiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiIsInVwZGF0ZWRBdCI6IjIwMTktMDMtMjlUMTQ6MzQ6MjguODIyWiJ9LCJpYXQiOjE1NTQxMDEwNDEsImV4cCI6MTU2MDEyMjY0MX0.RTf2FjCGAALc-aoiIcln0Q1Cw0JplE7SZvNzsj1UdTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/admin",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get admin dashboard data - only admin/mod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bfc485ca-ebbd-4b67-968d-5678b24d5545",
+								"exec": [
+									"pm.test('Expect error message', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.eql('Only admin has access rights!');",
+									"});",
+									"pm.test('Status 500', function () {",
+									"    pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWRtaW5vIiwiZW1haWwiOiJhZG1pbkBzdWRva3UtcmVhY3QuY29tIiwibGV2ZWwiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIiwidXBkYXRlZEF0IjoiMjAxOS0wNS0yNVQxMjoyMjozNi44MjRaIn0sImlhdCI6MTU1ODc4NzA1NiwiZXhwIjoxNTY5ODA4NjU2fQ.UjU3jRX_NjxGcmoV6yzrka51jzDhJkgyi2e7pLeeymc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/admin",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "cd2222f2-56bb-48c0-9b73-6e61296a423a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "83f4b4c6-ca70-4dbe-9cc0-fb4e3d5b62d3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

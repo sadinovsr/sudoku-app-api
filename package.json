@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --exec babel-node ./server.js",
     "start": "babel-node ./server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "newman run test/test.json"
   },
   "author": "Reinis Šadinovs sadinovsr@gmail.com",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.6",
     "@babel/register": "^7.0.0",
+    "newman": "^4.5.0",
     "nodemon": "^1.18.10"
   },
   "dependencies": {
