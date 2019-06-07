@@ -1,6 +1,7 @@
 import { getAllUsers, getUserByUsername, getUserByEmail, updateUserById, deleteUserById } from '../models/UserModel';
 import { compareUserLevels } from '../helpers/compareUserLevels';
 import AppError from '../errors/AppError';
+import validator from 'validator';
 import bcrypt from 'bcrypt';
 import { deleteHistoryByUserId } from '../models/HistoryModel';
 
@@ -48,11 +49,15 @@ const updateUser = async ( req, res, next ) => {
         }
       }
       if ( email ) {
-        const checkEmail = await getUserByEmail(email);
-        if ( !checkEmail || checkEmail.id === id ) {
-          userUpdate.email = email;
+        if ( validator.isEmail(email) ) {
+          const checkEmail = await getUserByEmail(email);
+          if ( !checkEmail || checkEmail.id === id ) {
+            userUpdate.email = email;
+          } else {
+            throw new AppError( 'E-mail is already taken!' )
+          }
         } else {
-          throw new AppError( 'E-mail is already taken!' )
+          throw new AppError( 'Please provide valid email address!' );
         }
       }
       if ( level && isAdmin ) {
