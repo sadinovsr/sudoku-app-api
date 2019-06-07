@@ -103,7 +103,8 @@ const getDividedUserHistory = async ( req, res, next ) => {
           answer: entry.answer,
           time: entry.time,
           completed: entry.completed,
-          usedSolve: entry.usedSolve
+          usedSolve: entry.usedSolve,
+          updatedAt: entry.updatedAt,
         });
       }));
       await Promise.all(notCompletedHistory.map(async (entry) => {
@@ -116,7 +117,8 @@ const getDividedUserHistory = async ( req, res, next ) => {
           answer: entry.answer,
           time: entry.time,
           completed: entry.completed,
-          usedSolve: entry.usedSolve
+          usedSolve: entry.usedSolve,
+          updatedAt: entry.updatedAt,
         });
       }));
 
